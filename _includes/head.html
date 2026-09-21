@@ -1,0 +1,35 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {%- assign t = page.title | default: site.title -%}
+  <title>{% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+
+  {%- assign desc = page.abstract | default: page.description | default: site.description | strip_newlines | strip_html | truncate: 180 -%}
+  <meta name="description" content="{{ desc }}">
+  {%- if site.author %}<meta name="author" content="{{ site.author }}">{% endif %}
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+
+  <meta property="og:type" content="{% if page.collection == 'reports' %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ t }}">
+  <meta property="og:description" content="{{ desc }}">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:locale" content="ko_KR">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ t }}">
+  <meta name="twitter:description" content="{{ desc }}">
+
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/report.css' | relative_url }}">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23fffdf8'/><rect x='2' y='3' width='12' height='1.4' fill='%2314130f'/><rect x='2' y='7' width='8' height='1.4' fill='%2314130f'/><rect x='2' y='11' width='10' height='1.4' fill='%2314130f'/></svg>">
+
+  <script>
+    try {
+      var t = localStorage.getItem('rev-theme');
+      if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+</head>

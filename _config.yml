@@ -1,0 +1,56 @@
+title:   "re:versing.zip"
+tagline: "직접 뜯어보고 남기는 기록"
+description: "직접 뜯어보고 확인한 것만 적는 리버스 엔지니어링 기록. 도구로 파고든 분석도, 공개된 정보만으로 짚어 본 관찰도 함께 둔다."
+author:  "Theo Ha"
+lang:    ko
+
+url:     "https://reversing.zip"
+baseurl: ""
+
+repo:   "https://github.com/nechyo/my-book"
+branch: "main"
+
+collections:
+  reports:
+    output: true
+    permalink: /r/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: "reports"
+    values:
+      layout: report
+      kind: "심층분석"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  auto_ids: true
+  hard_wrap: false
+  footnote_backlink: "&#8617;&#xFE0E;"
+  footnote_nr: 1
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+feed:
+  collections:
+    reports:
+      path: "/feed.xml"
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - tools/
+  - vendor/
+  - _preview/
+  - .github/
+  - .gitignore
+  - .gitattributes

@@ -1,0 +1,140 @@
+---
+layout: base
+---
+{%- capture docket_no %}{% include docket-no.html doc=page %}{% endcapture -%}
+{%- assign docket_no = docket_no | strip -%}
+
+<div class="watermark" aria-hidden="true"><span class="wm-mark">{{ site.title }} · {{ docket_no }}</span></div>
+
+<article class="report">
+
+  <header class="report-head">
+    <p class="docket-no">
+      {{ docket_no }} · {{ page.kind | default: "심층분석" }}
+      {%- if page.status %} · {{ page.status }}{% endif -%}
+    </p>
+
+    <h1>{{ page.title }}</h1>
+    {%- if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
+
+    <dl class="docket">
+      <div>
+        <dt>발행</dt>
+        <dd><time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%Y년 %-m월 %-d일" }}</time></dd>
+      </div>
+
+      <div id="revised-row"{% unless page.revised %} hidden{% endunless %}>
+        <dt>최종 개정</dt>
+        <dd><span id="revised-slot">{{ page.revised | date: "%Y-%m-%d" }}</span></dd>
+      </div>
+
+      {%- if page.target %}
+      <div><dt>분석 대상</dt><dd class="mono">{{ page.target }}</dd></div>
+      {%- endif %}
+
+      {%- if page.tools %}
+      <div><dt>도구·환경</dt><dd>{{ page.tools }}</dd></div>
+      {%- endif %}
+
+      {%- if page.labels %}
+      <div>
+        <dt>주제</dt>
+        <dd class="labels">
+          {%- for l in page.labels -%}
+          <a class="label" href="{{ '/labels/' | relative_url }}#{{ l | slugify }}">{{ l }}</a>
+          {%- endfor -%}
+        </dd>
+      </div>
+      {%- endif %}
+
+      <div><dt>작성</dt><dd>{{ page.analyst | default: site.author }}</dd></div>
+    </dl>
+
+    {%- if page.abstract %}
+    <section class="abstract">
+      <h2 class="no-number">요지</h2>
+      {{ page.abstract | markdownify }}
+    </section>
+    {%- endif %}
+
+    <div class="toolbar">
+      <button type="button" data-print>PDF 내려받기</button>
+      {%- if page.references %}
+      <button type="button" id="ref-toggle" aria-expanded="false">참고자료 따로 보기</button>
+      {%- endif %}
+      <a href="{{ '/' | relative_url }}">목록</a>
+    </div>
+  </header>
+
+  <nav id="toc" class="toc" aria-label="목차"></nav>
+
+  <div class="report-body">
+    {{ content }}
+  </div>
+
+  {%- if page.references %}
+  <section id="references" class="references">
+    <h2 class="no-number">참고자료</h2>
+    <ol class="reflist">
+      {%- for r in page.references %}
+      <li id="ref-{{ forloop.index }}" data-source="{{ r.source }}" data-date="{{ r.date | date: '%Y-%m-%d' }}">
+        {%- if r.url %}<a class="t" href="{{ r.url }}" rel="noopener">{{ r.title }}</a>{% else %}<span class="t">{{ r.title }}</span>{% endif %}
+        <span class="meta">{{ r.source }}{% if r.date %} · {{ r.date | date: '%Y-%m-%d' }}{% endif %}{% if r.accessed %} · 열람 {{ r.accessed | date: '%Y-%m-%d' }}{% endif %}{% if r.note %} · {{ r.note }}{% endif %}</span>
+      </li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endif %}
+
+  <section id="revisions" class="revisions" data-seeded="{% if page.revisions %}true{% else %}false{% endif %}">
+    <h2 class="no-number">개정 이력</h2>
+    {%- if page.revisions %}
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>판</th><th>일자</th><th>구분</th><th>변경 내용</th></tr></thead>
+        <tbody>
+          {%- for rv in page.revisions %}
+          <tr>
+            <td>{{ rv.rev }}</td>
+            <td>{{ rv.date | date: "%Y-%m-%d" }}</td>
+            <td>{{ rv.kind | default: "수정" }}</td>
+            <td>{{ rv.note }}</td>
+          </tr>
+          {%- endfor %}
+        </tbody>
+      </table>
+    </div>
+    {%- endif %}
+  </section>
+
+  <div class="provenance print-only">
+    <div>{{ site.title }} · {{ docket_no }} · 발행 {{ page.date | date: '%Y-%m-%d' }} · {{ page.analyst | default: site.author }}</div>
+    <div class="src">{{ page.url | absolute_url }}</div>
+  </div>
+
+  <div class="pdf-bar">
+    <button type="button" data-print>PDF 내려받기</button>
+    <span class="hint">인쇄 대화상자에서 대상을 “PDF로 저장”으로 고르면 됩니다. 워터마크가 함께 찍힙니다.</span>
+  </div>
+
+  {%- assign asc = site.reports | sort: "date" -%}
+  {%- assign idx = -1 -%}
+  {%- for r in asc -%}{%- if r.url == page.url -%}{%- assign idx = forloop.index0 -%}{%- endif -%}{%- endfor -%}
+  {%- assign pi = idx | minus: 1 -%}
+  {%- assign ni = idx | plus: 1 -%}
+  {%- assign total = asc | size -%}
+
+  {%- if idx >= 0 and total > 1 %}
+  <nav class="prevnext" aria-label="다른 보고서">
+    {%- if pi >= 0 -%}
+    {%- assign p = asc[pi] -%}
+    <a href="{{ p.url | relative_url }}"><span class="dir">이전</span>{{ p.title }}</a>
+    {%- endif -%}
+    {%- if ni < total -%}
+    {%- assign n = asc[ni] -%}
+    <a class="next" href="{{ n.url | relative_url }}"><span class="dir">다음</span>{{ n.title }}</a>
+    {%- endif -%}
+  </nav>
+  {%- endif %}
+
+</article>

@@ -1,0 +1,17 @@
+<header class="masthead">
+  {%- assign wm = site.title -%}
+  {%- if wm contains ".zip" -%}
+    {%- assign wmbase = wm | split: ".zip" | first -%}
+    <a class="wordmark" href="{{ '/' | relative_url }}">{{ wmbase }}<span class="tld">.zip</span></a>
+  {%- else -%}
+    <a class="wordmark" href="{{ '/' | relative_url }}">{{ wm }}</a>
+  {%- endif -%}
+  {%- if site.tagline %}<p class="tagline">{{ site.tagline }}</p>{% endif %}
+</header>
+
+<nav class="site-nav wrap" aria-label="주 메뉴">
+  <a href="{{ '/' | relative_url }}"        {% if page.url == '/' %}aria-current="page"{% endif %}>발행 목록</a>
+  <a href="{{ '/labels/' | relative_url }}" {% if page.url contains '/labels' %}aria-current="page"{% endif %}>주제별</a>
+  <a href="{{ '/about/' | relative_url }}"  {% if page.url contains '/about' %}aria-current="page"{% endif %}>이 기록에 대하여</a>
+  <a href="{{ '/feed.xml' | relative_url }}">구독</a>
+</nav>
