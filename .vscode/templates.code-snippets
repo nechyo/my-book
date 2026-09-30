@@ -1,0 +1,191 @@
+{
+  "형광펜": {
+    "scope": "markdown",
+    "prefix": [
+      "mark",
+      "형광펜",
+      "강조"
+    ],
+    "body": "==${TM_SELECTED_TEXT:${1:강조할 말}}==$0",
+    "description": "==말== 형광펜 강조. 고른 글자에 씌우려면 명령 팔레트 → Surround With Snippet"
+  },
+  "밑줄": {
+    "scope": "markdown",
+    "prefix": [
+      "under",
+      "밑줄"
+    ],
+    "body": "++${TM_SELECTED_TEXT:${1:밑줄 칠 말}}++$0",
+    "description": "++말++ 밑줄"
+  },
+  "삭제선": {
+    "scope": "markdown",
+    "prefix": [
+      "strike",
+      "삭제선",
+      "취소선"
+    ],
+    "body": "~~${TM_SELECTED_TEXT:${1:지울 말}}~~$0",
+    "description": "~~말~~ 삭제선"
+  },
+  "키": {
+    "scope": "markdown",
+    "prefix": [
+      "kbd",
+      "키"
+    ],
+    "body": "<kbd>${TM_SELECTED_TEXT:${1:Ctrl}}</kbd>$0",
+    "description": "<kbd> 키보드 키"
+  },
+  "그림": {
+    "scope": "markdown",
+    "prefix": [
+      "fig",
+      "그림"
+    ],
+    "body": "![${1:캡션}](${2:img/${TM_FILENAME_BASE}/파일.png})$0",
+    "description": "그림 한 장. 캡션이 「그림 N」 옆에 붙고 누르면 크게 보인다. 이미지는 편집기에 붙여 넣어도 된다"
+  },
+  "인용": {
+    "scope": "markdown",
+    "prefix": [
+      "cite",
+      "인용"
+    ],
+    "body": "<cite data-ref=\"${1:1}\"></cite>$0",
+    "description": "참고자료 N번 인용"
+  },
+  "침해 지표": {
+    "scope": "markdown",
+    "prefix": [
+      "ioc",
+      "침해지표"
+    ],
+    "body": [
+      "```ioc",
+      "[${1:네트워크}]",
+      "${2:hxxps://update.example.net/beacon} | ${3:비고}",
+      "```",
+      "$0"
+    ],
+    "description": "ioc 펜스. 한 줄에 하나, | 뒤는 비고, [그룹] 줄로 묶는다"
+  },
+  "ATT&CK 매핑": {
+    "scope": "markdown",
+    "prefix": [
+      "attack",
+      "매핑"
+    ],
+    "body": [
+      "```attack",
+      "${1:초기 침투} | ${2:T1566.001} | | ${3:근거}",
+      "```",
+      "$0"
+    ],
+    "description": "attack 펜스. 전술 | 기법 ID | 기법(비우면 자동) | 근거"
+  },
+  "타임라인": {
+    "scope": "markdown",
+    "prefix": [
+      "timeline",
+      "타임라인"
+    ],
+    "body": [
+      "```timeline",
+      "[${1:탐지}]",
+      "* $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE ${2:$CURRENT_HOUR:$CURRENT_MINUTE} | ${3:내용} | ${4:꼬리표}",
+      "```",
+      "$0"
+    ],
+    "description": "timeline 펜스. 시각 | 내용 | 꼬리표, 핵심 사건은 줄 앞에 *"
+  },
+  "추가": {
+    "scope": "markdown",
+    "prefix": [
+      "addendum",
+      "추가"
+    ],
+    "body": [
+      "<div class=\"addendum\" data-date=\"$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE\" markdown=\"1\">",
+      "$0",
+      "</div>"
+    ],
+    "description": "발행 후 추가. 개정 이력에 자동으로 들어간다"
+  },
+  "정정": {
+    "scope": "markdown",
+    "prefix": [
+      "correction",
+      "정정"
+    ],
+    "body": [
+      "<div class=\"correction\" data-date=\"$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE\" markdown=\"1\">",
+      "~~${1:틀린 내용}~~ ${2:고친 내용}",
+      "</div>",
+      "$0"
+    ],
+    "description": "발행 후 정정. 개정 이력에 자동으로 들어간다"
+  },
+  "주석": {
+    "scope": "markdown",
+    "prefix": [
+      "remark",
+      "주석"
+    ],
+    "body": [
+      "<div class=\"remark\" data-date=\"$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE\" markdown=\"1\">",
+      "$0",
+      "</div>"
+    ],
+    "description": "개정 이력에 들어가지 않는 부연"
+  },
+  "소식": {
+    "scope": "markdown",
+    "prefix": [
+      "item",
+      "소식"
+    ],
+    "body": [
+      "  - title: \"${1:소식 제목}\"",
+      "    date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "    tag: ${2:분류}",
+      "    summary: |",
+      "      ${3:무엇이 있었고 무엇을 확인했는지.}",
+      "    refs: [${4:1}]$0"
+    ],
+    "description": "앞머리 items: 에 소식 하나"
+  },
+  "참고자료": {
+    "scope": "markdown",
+    "prefix": [
+      "ref",
+      "참고자료"
+    ],
+    "body": [
+      "  - title: \"${1:제목}\"",
+      "    source: ${2:출처}",
+      "    url: ${3:https://}",
+      "    date: ${4:$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE}$0"
+    ],
+    "description": "앞머리 references: 에 출처 하나. 찾아서 넣으려면 작업 「자료 찾기」"
+  },
+  "다이어그램": {
+    "scope": "markdown",
+    "prefix": [
+      "mermaid",
+      "다이어그램",
+      "흐름도"
+    ],
+    "body": [
+      "```mermaid",
+      "---",
+      "title: ${1:캡션}",
+      "---",
+      "flowchart ${2|LR,TD|}",
+      "  A[\"${3:첫 단계}\"] --> B[\"${4:핵심 단계}\"]:::key --> C[\"${5:다음 단계}\"]",
+      "```",
+      "$0"
+    ],
+    "description": "mermaid 흐름도. title 이 그림 번호 옆 캡션, :::key 는 빨간 강조"
+  }
+}

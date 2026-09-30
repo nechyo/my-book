@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" width="720" height="240" font-family="IBM Plex Mono, Consolas, Malgun Gothic, monospace" font-size="13">
+  <rect width="720" height="240" fill="#ffffff"/>
+  <text x="30" y="36" font-size="11" fill="#6a707b">자리표시 그림 · 실제 망 구성이 아님</text>
+  <g fill="none" stroke="#15171c" stroke-width="1">
+    <rect x="30" y="90" width="160" height="72"/>
+    <rect x="280" y="90" width="160" height="72"/>
+    <rect x="530" y="90" width="160" height="72"/>
+  </g>
+  <g stroke="#cc1f2d" stroke-width="1.5" fill="none">
+    <line x1="190" y1="126" x2="280" y2="126" stroke-dasharray="4 4"/>
+    <line x1="440" y1="126" x2="530" y2="126" stroke-dasharray="4 4"/>
+    <line x1="226" y1="110" x2="244" y2="142"/>
+    <line x1="244" y1="110" x2="226" y2="142"/>
+    <line x1="476" y1="110" x2="494" y2="142"/>
+    <line x1="494" y1="110" x2="476" y2="142"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="110" y="121" fill="#15171c">인터넷</text>
+    <text x="110" y="143" fill="#6a707b" font-size="11">198.51.100.0/24</text>
+    <text x="360" y="121" fill="#15171c">웹 서버</text>
+    <text x="360" y="143" fill="#6a707b" font-size="11">IIS · 격리</text>
+    <text x="610" y="121" fill="#15171c">내부망</text>
+    <text x="610" y="143" fill="#6a707b" font-size="11">업무 대역</text>
+    <text x="235" y="98" fill="#cc1f2d" font-size="11">차단</text>
+    <text x="485" y="98" fill="#cc1f2d" font-size="11">차단</text>
+  </g>
+  <line x1="30" y1="200" x2="690" y2="200" stroke="#c7ccd4" stroke-width="1"/>
+  <text x="30" y="222" font-size="11" fill="#6a707b">2026-09-19 10:00 격리 이후</text>
+</svg>

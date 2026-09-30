@@ -1,0 +1,50 @@
+---
+layout: base
+title: 주제별
+permalink: /labels/
+---
+{%- assign all = "" | split: "," -%}
+{%- for r in site.reports -%}
+  {%- if r.labels -%}{%- assign all = all | concat: r.labels -%}{%- endif -%}
+{%- endfor -%}
+{%- assign labels = all | uniq | sort -%}
+
+<h1 style="font-size:1.4rem;margin:0 0 .4rem">주제별 색인</h1>
+<p class="lede">라벨은 보고서 앞머리의 <code>labels:</code> 한 줄에서 자동으로 모입니다.</p>
+
+{%- if labels.size == 0 %}
+<p>아직 라벨이 없습니다.</p>
+{%- else %}
+
+<div class="label-cloud">
+  {%- for l in labels -%}
+  {%- assign n = 0 -%}
+  {%- for r in site.reports -%}{%- if r.labels contains l -%}{%- assign n = n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+  <a href="#{{ l | slugify }}">#{{ l }} <span class="n">{{ n }}</span></a>
+  {%- endfor -%}
+</div>
+
+{%- for l in labels %}
+<section class="label-group" id="{{ l | slugify }}">
+  <h2>{{ l }}</h2>
+  <ul class="ledger">
+    {%- assign sorted = site.reports | sort: "date" | reverse -%}
+    {%- for r in sorted -%}
+    {%- if r.labels contains l %}
+    {%- capture no %}{% include docket-no.html doc=r %}{% endcapture -%}
+    <li>
+      <div class="entry-head">
+        <span class="docket-no">{{ no | strip }}</span>
+        <a class="entry-title" href="{{ r.url | relative_url }}">{{ r.title }}</a>
+      </div>
+      <p class="entry-meta">
+        <time datetime="{{ r.date | date: '%Y-%m-%d' }}">{{ r.date | date: "%Y-%m-%d" }}</time>
+        <span class="chip">{{ r.kind | default: "심층분석" }}</span>
+      </p>
+    </li>
+    {%- endif -%}
+    {%- endfor %}
+  </ul>
+</section>
+{%- endfor %}
+{%- endif %}

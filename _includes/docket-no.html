@@ -1,0 +1,18 @@
+{%- assign d = include.doc -%}
+{%- if d.docket -%}
+{{ d.docket }}
+{%- else -%}
+{%- assign yr = d.date | date: "%Y" -%}
+{%- assign asc = site.reports | sort: "date" -%}
+{%- assign n = 0 -%}
+{%- assign seq = 0 -%}
+{%- for r in asc -%}
+  {%- assign ry = r.date | date: "%Y" -%}
+  {%- if ry == yr -%}
+    {%- assign n = n | plus: 1 -%}
+    {%- if r.url == d.url -%}{%- assign seq = n -%}{%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- capture pad -%}00{{ seq }}{%- endcapture -%}
+{{ yr }}-{{ pad | slice: -3, 3 }}
+{%- endif -%}

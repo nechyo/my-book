@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'ko' }}">
+{% include head.html %}
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+  {% include masthead.html %}
+  <main id="main" class="main">
+    <div class="page">
+      {{ content }}
+      {% include colophon.html %}
+    </div>
+  </main>
+  <script src="{{ '/assets/js/report.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+</body>
+</html>

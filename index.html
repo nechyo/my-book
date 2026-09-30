@@ -1,0 +1,66 @@
+---
+layout: base
+title: null
+---
+<p class="lede">
+  바이너리를 직접 뜯어보고, 확인한 것만 적습니다. 도구로 파고든 분석도 있고, 도구 없이 공개된 정보만으로 짚어 본 글도 있어요.
+  나중에 더 알게 되면 원문은 그대로 두고 날짜를 달아 덧붙입니다.
+</p>
+
+{%- assign reports = site.reports | sort: "date" | reverse -%}
+
+{%- if reports.size == 0 %}
+<p>아직 발행한 글이 없습니다.</p>
+{%- else %}
+
+{%- assign all = "" | split: "," -%}
+{%- for r in site.reports -%}{%- if r.labels -%}{%- assign all = all | concat: r.labels -%}{%- endif -%}{%- endfor -%}
+{%- assign labelcount = all | uniq | size -%}
+
+<div class="stats" aria-label="기록 현황">
+  <div class="stat"><span class="v">{{ reports.size }}</span><span class="k">발행</span></div>
+  <div class="stat"><span class="v">{{ labelcount }}</span><span class="k">주제</span></div>
+  <div class="stat"><span class="v">{{ reports.first.date | date: "%Y.%m.%d" }}</span><span class="k">최근 발행</span></div>
+</div>
+
+{%- assign byyear = reports | group_by_exp: "r", "r.date | date: '%Y'" -%}
+{%- for g in byyear %}
+
+<div class="section-rule">{{ g.name }}</div>
+<ul class="ledger">
+  {%- for r in g.items %}
+  {%- capture no %}{% include docket-no.html doc=r %}{% endcapture -%}
+  {%- assign nadd = r.content | split: 'class="addendum"'   | size | minus: 1 -%}
+  {%- assign nfix = r.content | split: 'class="correction"' | size | minus: 1 -%}
+  {%- assign nrev = nadd | plus: nfix -%}
+  <li data-kind="{{ r.kind | default: '심층분석' }}">
+    <div class="entry-head">
+      <span class="docket-no">{{ no | strip }}</span>
+      <a class="entry-title" href="{{ r.url | relative_url }}">{{ r.title }}</a>
+    </div>
+
+    {%- if r.subtitle %}<p class="entry-sub">{{ r.subtitle }}</p>{% endif %}
+
+    <p class="entry-meta">
+      <time datetime="{{ r.date | date: '%Y-%m-%d' }}">{{ r.date | date: "%m월 %d일" }}</time>
+      <span class="chip">{{ r.kind | default: "심층분석" }}</span>
+      {%- if r.series -%}
+        {%- assign sa = site.reports | where: "series", r.series | sort: "date" -%}
+        {%- for s in sa -%}{%- if s.url == r.url -%}{%- assign sno = forloop.index -%}{%- endif -%}{%- endfor -%}
+        <span class="chip chip--series">{{ r.series }} 제{{ sno }}호</span>
+      {%- endif -%}
+      {%- if r.items %}<span class="chip">소식 {{ r.items | size }}건</span>{% endif -%}
+      {%- assign tlpu = r.tlp | upcase -%}
+      {%- if r.tlp and tlpu != "CLEAR" %}<span class="tlp tlp--{{ r.tlp | downcase | replace: '+', '-' }}">TLP:{{ tlpu }}</span>{% endif -%}
+      {%- if r.status %}<span class="chip chip--open">{{ r.status }}</span>{% endif -%}
+      {%- if nrev > 0 %}<span class="chip chip--rev">개정 {{ nrev }}회</span>{% endif -%}
+      {%- for l in r.labels %}
+      <a class="label" href="{{ '/labels/' | relative_url }}#{{ l | slugify }}">{{ l }}</a>
+      {%- endfor %}
+    </p>
+  </li>
+  {%- endfor %}
+</ul>
+
+{%- endfor %}
+{%- endif %}

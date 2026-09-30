@@ -1,0 +1,32 @@
+{
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": "off",
+      "strings": "off"
+    },
+    "editor.quickSuggestionsDelay": 150,
+    "editor.wordBasedSuggestions": "off",
+    "editor.snippetSuggestions": "top",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.wordWrap": "on"
+  },
+  "markdown.copyFiles.destination": {
+    "/_reports/_drafts/*.md": "/_reports/_drafts/img/${documentBaseName}/",
+    "/_reports/*.md": "/assets/img/${documentBaseName}/",
+    "/about.md": "/assets/img/about/"
+  },
+  "markdown.copyFiles.overwriteBehavior": "nameIncrementally",
+  "files.exclude": {
+    "_preview": true,
+    "_site": true,
+    ".jekyll-cache": true
+  },
+  "search.exclude": {
+    ".vscode/attack.code-snippets": true,
+    "tools/attack-refs.json.gz": true
+  },
+  "workbench.browser.openLocalhostLinks": true,
+  "workbench.browser.newTabPlacement": "sideGroup"
+}

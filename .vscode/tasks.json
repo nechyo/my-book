@@ -1,0 +1,105 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "env": {
+      "PYTHONUTF8": "1",
+      "PYTHONIOENCODING": "utf-8",
+      "PYTHONUNBUFFERED": "1"
+    }
+  },
+  "tasks": [
+    {
+      "label": "미리보기 (자동 시작)",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/tools/preview.py", "--watch", "--no-open"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "runOptions": { "runOn": "folderOpen", "instanceLimit": 1 },
+      "presentation": { "reveal": "silent", "panel": "dedicated", "showReuseMessage": false }
+    },
+    {
+      "label": "미리보기",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/tools/preview.py", "--watch"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "dedicated", "showReuseMessage": false }
+    },
+    {
+      "label": "자료 찾기",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/tools/find.py", "${selectedText}", "--into", "${file}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "focus": true, "panel": "shared", "clear": true, "showReuseMessage": false }
+    },
+    {
+      "label": "번호 찾기",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/tools/lookup.py", "${selectedText}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "focus": true, "panel": "shared", "clear": true, "showReuseMessage": false }
+    },
+    {
+      "label": "새 글 (초안)",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile", "-ExecutionPolicy", "Bypass",
+        "-File", "${workspaceFolder}/tools/new.ps1",
+        "${input:title}", "-Type", "${input:kind}"
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true, "showReuseMessage": false }
+    },
+    {
+      "label": "발행 전 점검",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/tools/publish.py", "--check", "${file}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true, "showReuseMessage": false }
+    },
+    {
+      "label": "발행",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/tools/publish.py", "${file}"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true, "showReuseMessage": false }
+    },
+    {
+      "label": "초안 목록",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/tools/publish.py", "--list"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true, "showReuseMessage": false }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "title",
+      "type": "promptString",
+      "description": "글 제목"
+    },
+    {
+      "id": "kind",
+      "type": "pickString",
+      "description": "글 종류",
+      "default": "re",
+      "options": [
+        { "label": "리버싱 · 심층분석", "value": "re" },
+        { "label": "관찰", "value": "obs" },
+        { "label": "위협 인텔리전스", "value": "ti" },
+        { "label": "침해대응", "value": "ir" },
+        { "label": "기술보안", "value": "ts" },
+        { "label": "동향 · 소식 묶음", "value": "digest" }
+      ]
+    }
+  ]
+}

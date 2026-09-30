@@ -1,0 +1,13 @@
+{
+ "CVE-2024-3400": {
+  "checked": "2026-09-29",
+  "cvss": 10,
+  "published": "2024-04-12",
+  "severity": "CRITICAL",
+  "title": "PAN-OS: Arbitrary File Creation Leads to OS Command Injection Vulnerability in GlobalProtect"
+ },
+ "KVE-2023-6187": {
+  "checked": "2026-09-29",
+  "title": ""
+ }
+}
