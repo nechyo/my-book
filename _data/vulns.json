@@ -1,13 +1,23 @@
 {
- "CVE-2024-3400": {
-  "checked": "2026-09-29",
+ "CVE-2021-44228": {
+  "checked": "2026-10-04",
   "cvss": 10,
-  "published": "2024-04-12",
+  "published": "2021-12-10",
   "severity": "CRITICAL",
-  "title": "PAN-OS: Arbitrary File Creation Leads to OS Command Injection Vulnerability in GlobalProtect"
+  "title": "Apache Log4j2 JNDI features do not protect against attacker controlled LDAP and other JNDI related endpoints"
  },
- "KVE-2023-6187": {
-  "checked": "2026-09-29",
-  "title": ""
+ "CVE-2023-29059": {
+  "checked": "2026-10-04",
+  "cvss": 7.8,
+  "published": "2023-03-30",
+  "severity": "HIGH",
+  "title": "3CX DesktopApp through 18.12.416 has embedded malicious code, as exploited in the wild in March 2023."
+ },
+ "CVE-2024-3094": {
+  "checked": "2026-10-04",
+  "cvss": 10,
+  "published": "2024-03-29",
+  "severity": "CRITICAL",
+  "title": "Xz: malicious code in distributed source"
  }
 }

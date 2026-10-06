@@ -56,18 +56,26 @@ _ATT = None
 RELOAD = """<script>
 (function () {
   var seen = null;
-  function tick() {
+  function check(t) {
+    if (!t) return;
+    t = String(t).trim();
+    if (seen === null) seen = t;
+    else if (t !== seen) location.reload();
+  }
+  function poll() {
     fetch('/__build.txt', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.text() : null; })
-      .then(function (t) {
-        if (t === null) return;
-        if (seen === null) seen = t;
-        else if (t !== seen) location.reload();
-      })
-      .catch(function () {})
-      .then(function () { setTimeout(tick, 1000); });
+      .then(check)
+      .catch(function () {});
   }
-  tick();
+  if (window.EventSource) {
+    new EventSource('/__events').onmessage = function (e) { check(e.data); };
+  }
+  setInterval(poll, 1000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) poll(); });
+  window.addEventListener('focus', poll);
+  window.addEventListener('pageshow', poll);
+  poll();
 })();
 </script>"""
 
@@ -665,11 +673,11 @@ def watched():
 def watch(args):
     base = watched()
     while True:
-        time.sleep(0.8)
+        time.sleep(0.4)
         now = watched()
         if now == base:
             continue
-        time.sleep(0.3)
+        time.sleep(0.15)
         now = watched()
         changed = sorted({f for f in set(now) | set(base) if now.get(f) != base.get(f)})
         names = ", ".join(f.name for f in changed[:3]) + (f" 외 {len(changed) - 3}개" if len(changed) > 3 else "")
@@ -698,6 +706,36 @@ class Quiet(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
         self.send_header("Cache-Control", "no-store")
         super().end_headers()
+
+    def do_GET(self):
+        if self.path.split("?", 1)[0] == "/__events":
+            return self.events()
+        return super().do_GET()
+
+    def events(self):
+        """빌드가 바뀔 때마다 열린 페이지에 알린다. 숨겨진 창에서도 받는다."""
+        self.send_response(200)
+        self.send_header("Content-Type", "text/event-stream; charset=utf-8")
+        self.end_headers()
+        stamp, last, idle = OUT / STAMP, None, 0.0
+        try:
+            while True:
+                try:
+                    cur = stamp.read_text(encoding="utf-8").strip()
+                except OSError:
+                    cur = last
+                if cur and cur != last:
+                    self.wfile.write(f"data: {cur}\n\n".encode("ascii"))
+                    self.wfile.flush()
+                    last, idle = cur, 0.0
+                elif idle >= 15:
+                    self.wfile.write(b": ping\n\n")
+                    self.wfile.flush()
+                    idle = 0.0
+                time.sleep(0.25)
+                idle += 0.25
+        except OSError:
+            return
 
 
 def latest_report():
